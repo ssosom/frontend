@@ -1,11 +1,11 @@
 import {View, Text} from 'react-native';
 
-const App = () => {
+const Splash = () => {
   return (
     <View>
-      <Text>?Hello World</Text>
+      <Text>Splash</Text>
     </View>
   );
 };
 
-export default App;
+export default Splash;
