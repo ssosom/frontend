@@ -11,10 +11,10 @@ const SignIn = () => {
 
   return (
     <View className="w-full h-full bg-[#7F73DB]">
-      <View className="w-full h-[15%] flex flex-row justify-center items-center android:mt-12">
+      <View className="w-full h-[15%] flex flex-row justify-center items-center mt-12">
         <Text className="w-full h-full font-bold text-[50px] text-white text-center">소솜</Text>
       </View>
-      <View className="w-full h-[10%]" />
+      <View className="w-full h-[5%]" />
       <View className="w-full flex flex-col justify-center items-center gap-3 p-3">
         <View className="w-full flex flex-col gap-2">
           <Text className="text-white font-semibold text-[12px]">아이디</Text>

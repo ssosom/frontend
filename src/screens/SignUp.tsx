@@ -57,27 +57,26 @@ const SignUp = () => {
 
   return (
     <View className="w-full h-full bg-[#7F73DB]">
-      <View className="w-full h-[15%] flex flex-row justify-center items-center android:mt-12">
+      <View className="w-full h-[15%] flex flex-row justify-center items-center mt-12">
         <Text className="w-full h-full font-bold text-[50px] text-white text-center">소솜</Text>
       </View>
-      <View className="w-full h-[5%]" />
       <View className="w-full flex flex-col justify-center items-center gap-3 p-3">
         <View className="w-full flex flex-col gap-2">
           <Text className="text-white font-semibold text-[12px]">아이디</Text>
-          <View className="flex flex-row w-full justify-center items-center gap-2 p-1">
+          <View className="flex flex-row w-full justify-center items-center gap-1">
             <TextInput
-              className="w-6/7 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+              className="w-5/6 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
               value={id}
               onChange={(e) => {
                 setId(e.nativeEvent.text);
               }}
             />
             <TouchableOpacity
-              className="bg-white h-12 w-1/7 rounded-xl flex flex-row justify-center items-center
+              className="bg-white h-12 w-1/6 rounded-xl flex flex-row justify-center items-center
             shadow-2xl shadow-[#352C74]
             "
               onPress={() => handleCheckDuplicateEmail()}>
-              <Image source={require('../asset/finder.png')} className="w-5 h-5" />
+              <Image source={require('../assets/images/finder.png')} className="w-5 h-5" />
             </TouchableOpacity>
           </View>
         </View>
@@ -103,26 +102,26 @@ const SignUp = () => {
             }}
           />
         </View>
-        <View className="w-full flex flex-col gap-2">
+        <View className="w-full flex flex-col gap-2 mb-10">
           <Text className="text-white font-semibold text-[12px]">닉네임</Text>
-          <View className="flex flex-row w-full justify-center items-center gap-2 p-1">
+          <View className="flex flex-row w-full justify-center items-center gap-1">
             <TextInput
-              className="w-6/7 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+              className="w-5/6 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
               value={nickname}
               onChange={(e) => {
                 setNickname(e.nativeEvent.text);
               }}
             />
             <TouchableOpacity
-              className="bg-white h-12 w-12 rounded-xl flex flex-row justify-center items-center
+              className="bg-white h-12 w-1/6 rounded-xl flex flex-row justify-center items-center
             shadow-2xl shadow-[#352C74]
             "
               onPress={() => handleCheckDuplicateNickName()}>
-              <Image source={require('../asset/finder.png')} className="w-5 h-5" />
+              <Image source={require('../assets/images/finder.png')} className="w-5 h-5" />
             </TouchableOpacity>
           </View>
         </View>
-        <View className="w-full h-10 mt-10 flex flex-row justify-center items-center gap-5 p-3">
+        <View className="w-full h-10  flex flex-row justify-center items-center gap-5 p-2">
           <TouchableOpacity onPress={() => navigation.goBack()} className=" w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]">
             <Text className="text-white">돌아가기</Text>
           </TouchableOpacity>

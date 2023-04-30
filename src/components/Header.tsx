@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <>
-      <View className={`h-[${top}] bg-[#7F73DB]`} />
+      <View className={`h-[${top}px] bg-[#7F73DB]`} />
       <StatusBar backgroundColor="#7F73DB" />
     </>
   );
