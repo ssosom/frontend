@@ -1,14 +1,58 @@
-import {View, Text, TextInput, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Image, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
+import {duplicatedNickname, duplicatedEmail, signUp} from '../axios';
 import tw from 'twrnc';
 
 const SignUp = () => {
   const navigation = useNavigation();
   const [id, setId] = useState('');
+  const [duplicatedCheck, setDuplicatedCheck] = useState([false, false]);
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [nickname, setNickname] = useState('');
+
+  const handleCheckDuplicateEmail = async () => {
+    const response = await duplicatedEmail(id);
+    if (!response) {
+      Alert.alert('사용 가능한 이메일입니다.');
+      duplicatedCheck.splice(0, 1, true);
+      return;
+    } else if (response) {
+      Alert.alert('중복된 이메일입니다. 다른 이메일을 입력해주세요.');
+    }
+  };
+
+  const handleCheckDuplicateNickName = async () => {
+    const response = await duplicatedNickname(nickname);
+    if (!response) {
+      Alert.alert('사용 가능한 닉네임입니다.');
+      duplicatedCheck.splice(1, 1, true);
+      return;
+    } else if (response) {
+      Alert.alert('중복된 닉네임입니다. 다른 닉네임을 입력해주세요.');
+      return;
+    }
+  };
+
+  const handleSignUp = async () => {
+    if (password !== passwordCheck) {
+      Alert.alert('비밀번호가 일치하지 않습니다.');
+      return;
+    } else if (duplicatedCheck[0] === false) {
+      Alert.alert('이메일 중복확인을 해주세요.');
+      return;
+    } else if (duplicatedCheck[1] === false) {
+      Alert.alert('닉네임 중복확인을 해주세요.');
+      return;
+    }
+
+    const response = await signUp(id, password, nickname);
+    if (response) {
+      Alert.alert('회원가입이 완료되었습니다.');
+      navigation.navigate('SignIn');
+    }
+  };
 
   return (
     <View style={tw`w-full h-full bg-[#7F73DB] `}>
@@ -19,7 +63,7 @@ const SignUp = () => {
       <View style={tw`w-full flex flex-col justify-center items-center gap-3 p-3`}>
         <View style={tw`w-full flex flex-col gap-2`}>
           <Text style={tw`text-white font-semibold text-[12px]`}>아이디</Text>
-          <View style={tw`flex flex-row w-full justify-center items-center gap-2`}>
+          <View style={tw`flex flex-row w-full justify-center items-center gap-2 p-1`}>
             <TextInput
               style={tw`w-6/7 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]`}
               value={id}
@@ -28,9 +72,10 @@ const SignUp = () => {
               }}
             />
             <TouchableOpacity
-              style={tw`bg-white h-12 w-12 rounded-xl flex flex-row justify-center items-center
+              style={tw`bg-white h-12 w-1/7 rounded-xl flex flex-row justify-center items-center
             shadow-2xl shadow-[#352C74]
-            `}>
+            `}
+              onPress={() => handleCheckDuplicateEmail()}>
               <Image source={require('../asset/finder.png')} style={tw`w-5 h-5`} />
             </TouchableOpacity>
           </View>
@@ -40,7 +85,7 @@ const SignUp = () => {
           <TextInput
             style={tw`w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]`}
             value={password}
-            textContentType="password"
+            secureTextEntry
             onChange={(e) => {
               setPassword(e.nativeEvent.text);
             }}
@@ -51,7 +96,7 @@ const SignUp = () => {
           <TextInput
             style={tw`w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]`}
             value={passwordCheck}
-            textContentType="password"
+            secureTextEntry
             onChange={(e) => {
               setPasswordCheck(e.nativeEvent.text);
             }}
@@ -59,7 +104,7 @@ const SignUp = () => {
         </View>
         <View style={tw`w-full flex flex-col gap-2`}>
           <Text style={tw`text-white font-semibold text-[12px]`}>닉네임</Text>
-          <View style={tw`flex flex-row w-full justify-center items-center gap-2`}>
+          <View style={tw`flex flex-row w-full justify-center items-center gap-2 p-1`}>
             <TextInput
               style={tw`w-6/7 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]`}
               value={nickname}
@@ -70,7 +115,8 @@ const SignUp = () => {
             <TouchableOpacity
               style={tw`bg-white h-12 w-12 rounded-xl flex flex-row justify-center items-center
             shadow-2xl shadow-[#352C74]
-            `}>
+            `}
+              onPress={() => handleCheckDuplicateNickName()}>
               <Image source={require('../asset/finder.png')} style={tw`w-5 h-5`} />
             </TouchableOpacity>
           </View>
@@ -79,7 +125,7 @@ const SignUp = () => {
           <TouchableOpacity onPress={() => navigation.goBack()} style={tw` w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]`}>
             <Text style={tw`text-white`}>돌아가기</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={tw` w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]`}>
+          <TouchableOpacity onPress={() => handleSignUp()} style={tw` w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]`}>
             <Text style={tw`text-white`}>회원가입</Text>
           </TouchableOpacity>
         </View>
