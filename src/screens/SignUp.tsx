@@ -2,12 +2,13 @@ import {View, Text, TextInput, TouchableOpacity, Image, Alert} from 'react-nativ
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
 import {duplicatedNickname, duplicatedEmail, signUp} from '../axios';
+import {RootStackNavigationProps} from './Navigator';
 import tw from 'twrnc';
 
 const SignUp = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigationProps>();
   const [id, setId] = useState('');
-  const [duplicatedCheck, setDuplicatedCheck] = useState([false, false]);
+  const duplicatedCheck = [false, false];
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [nickname, setNickname] = useState('');

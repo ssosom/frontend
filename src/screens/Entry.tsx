@@ -1,9 +1,10 @@
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import tw from 'twrnc';
 import {useNavigation} from '@react-navigation/native';
+import {RootStackNavigationProps} from './Navigator';
 
 const Entry = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigationProps>();
 
   return (
     <View style={tw`w-full h-full bg-[#7F73DB]`}>

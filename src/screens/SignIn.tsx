@@ -2,9 +2,10 @@ import {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import tw from 'twrnc';
+import {RootStackNavigationProps} from './Navigator';
 
 const SignIn = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootStackNavigationProps>();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
