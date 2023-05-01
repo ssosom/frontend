@@ -47,7 +47,6 @@ const SignUp = () => {
       Alert.alert('닉네임 중복확인을 해주세요.');
       return;
     }
-
     const response = await signUp(id, password, nickname);
     if (response) {
       Alert.alert('회원가입이 완료되었습니다.');

@@ -3,11 +3,22 @@ import {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProps} from './Navigator';
+import {signIn} from '../axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const response = await signIn(id, password);
+    if (response) {
+      await AsyncStorage.setItem('accessToken', response.accessToken);
+      await AsyncStorage.setItem('refreshToken', response.refreshToken);
+      navigation.navigate('Main');
+    }
+  };
 
   return (
     <View className="w-full h-full bg-[#7F73DB]">
@@ -31,6 +42,7 @@ const SignIn = () => {
           <TextInput
             className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
             value={password}
+            secureTextEntry
             onChange={(e) => {
               setPassword(e.nativeEvent.text);
             }}
@@ -43,7 +55,7 @@ const SignIn = () => {
           <TouchableOpacity onPress={() => navigation.goBack()} className=" w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]">
             <Text className="font-semibold text-white">돌아가기</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {}} className=" w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]">
+          <TouchableOpacity onPress={() => handleLogin()} className=" w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]">
             <Text className="font-semibold text-white">로그인</Text>
           </TouchableOpacity>
         </View>
