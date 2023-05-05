@@ -1,7 +1,10 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProps} from './Navigator';
+import Kakao from '../assets/images/kakao';
+import User from '../assets/images/User';
+import Naver from '../assets/images/Naver';
 
 const Entry = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
@@ -13,14 +16,14 @@ const Entry = () => {
       </View>
       <View className="w-full h-[40%]" />
       <View className="w-full h-[30%] flex flex-row justify-center items-center">
-        <TouchableOpacity className="w-18 h-18 mr-8">
-          <Image source={require('../assets/images/kakao.png')} />
+        <TouchableOpacity className="w-18 h-18">
+          <Kakao />
         </TouchableOpacity>
-        <TouchableOpacity className="w-18 h-18 mr-8">
-          <Image source={require('../assets/images/naver.png')} />
+        <TouchableOpacity className="w-18 h-18 ml-8 mr-8">
+          <Naver />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('SignIn')} className="w-18 h-18">
-          <Image source={require('../assets/images/user.png')} />
+          <User />
         </TouchableOpacity>
       </View>
     </View>
