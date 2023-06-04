@@ -5,9 +5,16 @@ import {RootStackNavigationProps} from './Navigator';
 import Kakao from '../assets/images/kakao';
 import User from '../assets/images/User';
 import Naver from '../assets/images/Naver';
+import * as KakaoLogins from '@react-native-seoul/kakao-login';
 
 const Entry = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
+
+  const handleKakaoLogin = () => {
+    KakaoLogins.login().then((result) => {
+      console.log(result);
+    });
+  };
 
   return (
     <View className="w-full h-full bg-[#7F73DB]">
@@ -16,7 +23,7 @@ const Entry = () => {
       </View>
       <View className="w-full h-[40%]" />
       <View className="w-full h-[30%] flex flex-row justify-center items-center">
-        <TouchableOpacity className="w-18 h-18">
+        <TouchableOpacity className="w-18 h-18" onPress={() => handleKakaoLogin()}>
           <Kakao />
         </TouchableOpacity>
         <TouchableOpacity className="w-18 h-18 ml-8 mr-8">
