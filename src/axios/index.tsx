@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setItemInAsync} from '../utils/authUtils';
 import axios from 'axios';
+import {BASE_URL} from '@env';
 
 const instance = axios.create({
-  baseURL: 'https://api.sosom.site/',
-  withCredentials: false,
+  baseURL: BASE_URL,
 });
 
 instance.interceptors.request.use(

@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProps} from './Navigator';
 import {signIn} from '../axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Image} from 'react-native';
 
 const SignIn = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
@@ -22,15 +23,15 @@ const SignIn = () => {
 
   return (
     <View className="w-full h-full bg-[#7F73DB]">
-      <View className="w-full h-[15%] flex flex-row justify-center items-center mt-12">
-        <Text className="w-full h-full font-bold text-[50px] text-white text-center">소솜</Text>
+      <View className="w-full h-40 flex flex-row justify-center items-center mt-14">
+        <Image source={require('../../assets/images/sosomWhite.png')} className="w-full h-full" />
       </View>
       <View className="w-full h-[5%]" />
       <View className="w-full flex flex-col justify-center items-center gap-3 p-3">
         <View className="w-full flex flex-col gap-2">
           <Text className="text-white font-semibold text-[12px]">아이디</Text>
           <TextInput
-            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74] pl-2"
             value={id}
             onChange={(e) => {
               setId(e.nativeEvent.text);
@@ -40,7 +41,7 @@ const SignIn = () => {
         <View className="w-full flex-col gap-2">
           <Text className="text-white font-semibold text-[12px]">비밀번호</Text>
           <TextInput
-            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74] pl-2"
             value={password}
             secureTextEntry
             onChange={(e) => {
@@ -48,8 +49,8 @@ const SignIn = () => {
             }}
           />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} className="mt-3">
-          <Text className="text-white font-semibold">아직 회원이 아니시라면?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')} className="mt-3 text-center flex flex-row justify-center items-center">
+          <Text className="text-white">아직 회원이 아니시라면?</Text>
         </TouchableOpacity>
         <View className="w-full h-10 mt-10 flex flex-row justify-center items-center gap-5 p-3">
           <TouchableOpacity onPress={() => navigation.goBack()} className=" w-1/2 h-12 flex flex-row justify-center items-center rounded-xl bg-[#352C74]">
