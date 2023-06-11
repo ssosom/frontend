@@ -64,7 +64,7 @@ const SignUp = () => {
           <Text className="text-white font-semibold text-[12px]">아이디</Text>
           <View className="flex flex-row w-full justify-center items-center gap-1">
             <TextInput
-              className="w-5/6 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+              className="w-5/6 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74] pl-2"
               value={id}
               onChange={(e) => {
                 setId(e.nativeEvent.text);
@@ -75,14 +75,14 @@ const SignUp = () => {
             shadow-2xl shadow-[#352C74]
             "
               onPress={() => handleCheckDuplicateEmail()}>
-              <Image source={require('../assets/images/finder.png')} className="w-5 h-5" />
+              <Image source={require('../../assets/images/finder.png')} className="w-5 h-5" />
             </TouchableOpacity>
           </View>
         </View>
         <View className="w-full flex flex-col gap-2">
           <Text className="text-white font-semibold text-[12px]">비밀번호</Text>
           <TextInput
-            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74] pl-2"
             value={password}
             secureTextEntry
             onChange={(e) => {
@@ -93,7 +93,7 @@ const SignUp = () => {
         <View className="w-full flex flex-col gap-2">
           <Text className="text-white font-semibold text-[12px]">비밀번호 확인</Text>
           <TextInput
-            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+            className="w-full h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74] pl-2"
             value={passwordCheck}
             secureTextEntry
             onChange={(e) => {
@@ -105,7 +105,7 @@ const SignUp = () => {
           <Text className="text-white font-semibold text-[12px]">닉네임</Text>
           <View className="flex flex-row w-full justify-center items-center gap-1">
             <TextInput
-              className="w-5/6 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74]"
+              className="w-5/6 h-12 rounded-lg bg-white shadow-2xl shadow-[#352C74] pl-2"
               value={nickname}
               onChange={(e) => {
                 setNickname(e.nativeEvent.text);
@@ -116,7 +116,7 @@ const SignUp = () => {
             shadow-2xl shadow-[#352C74]
             "
               onPress={() => handleCheckDuplicateNickName()}>
-              <Image source={require('../assets/images/finder.png')} className="w-5 h-5" />
+              <Image source={require('../../assets/images/finder.png')} className="w-5 h-5" />
             </TouchableOpacity>
           </View>
         </View>
