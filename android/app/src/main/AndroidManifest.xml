@@ -31,5 +31,8 @@
           <data android:host="oauth" android:scheme="kakao{acd83e8456c05577385b347edafd5884}" />
         </intent-filter>
       </activity>
+      <uses-permission android:name="android.permission.RECORD_AUDIO" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+      <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     </application>
 </manifest>
