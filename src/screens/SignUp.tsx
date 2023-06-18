@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TextInput, TouchableOpacity, Image, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
-import {duplicatedNickname, duplicatedEmail, signUp} from '../axios';
+import {checkDuplicatedNickname, checkDuplicatedEmail, signUp} from '../axios';
 import {RootStackNavigationProps} from './Navigator';
 
 const SignUp = () => {
@@ -14,7 +14,7 @@ const SignUp = () => {
   const [nickname, setNickname] = useState('');
 
   const handleCheckDuplicateEmail = async () => {
-    const response = await duplicatedEmail(id);
+    const response = await checkDuplicatedEmail(id);
     if (!response) {
       Alert.alert('사용 가능한 이메일입니다.');
       duplicatedCheck.splice(0, 1, true);
@@ -25,7 +25,7 @@ const SignUp = () => {
   };
 
   const handleCheckDuplicateNickName = async () => {
-    const response = await duplicatedNickname(nickname);
+    const response = await checkDuplicatedNickname(nickname);
     if (!response) {
       Alert.alert('사용 가능한 닉네임입니다.');
       duplicatedCheck.splice(1, 1, true);

@@ -4,8 +4,8 @@ import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProps} from './Navigator';
 import {signIn} from '../axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Image} from 'react-native';
+import {setItemInAsync} from '../utils/authUtils';
 
 const SignIn = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
@@ -13,12 +13,12 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    const response = await signIn(id, password);
+    const response: LoginResponse = await signIn(id, password);
     if (response) {
-      await AsyncStorage.setItem('accessToken', response.accessToken);
-      await AsyncStorage.setItem('refreshToken', response.refreshToken);
-      navigation.navigate('Main');
+      setItemInAsync('accessToken', response.accessToken);
+      setItemInAsync('refreshToken', response.refreshToken);
     }
+    navigation.navigate('Main');
   };
 
   return (
