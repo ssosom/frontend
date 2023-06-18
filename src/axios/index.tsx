@@ -10,7 +10,8 @@ const instance = axios.create({
 instance.interceptors.request.use(
   async (req) => {
     const accessToken = await AsyncStorage.getItem('accessToken');
-    if (req.headers && accessToken !== null) {
+    console.log(accessToken);
+    if (req.headers) {
       req.headers.Authorization = `Bearer ${accessToken}`;
     }
     return req;
@@ -44,7 +45,7 @@ instance.interceptors.response.use(
   },
 );
 
-export const duplicatedNickname = async (nickname: string) => {
+export const checkDuplicatedNickname = async (nickname: string) => {
   return await instance
     .get(`/api/members/nicknames?nickname=${nickname}`)
     .then((res) => {
@@ -55,7 +56,7 @@ export const duplicatedNickname = async (nickname: string) => {
     });
 };
 
-export const duplicatedEmail = async (email: string) => {
+export const checkDuplicatedEmail = async (email: string) => {
   return await instance
     .get(`/api/members/emails?email=${email}`)
     .then((res) => {

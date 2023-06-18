@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.sosom"
+    namespace "com.learnreactnative"
     defaultConfig {
-        applicationId "com.sosom"
+        applicationId "com.learnreactnative"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

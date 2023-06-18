@@ -5,17 +5,17 @@ import {RootStackNavigationProps} from './Navigator';
 import Kakao from '../../assets/images/kakao';
 import User from '../../assets/images/User';
 import Naver from '../../assets/images/Naver';
-import * as KakaoLogins from '@react-native-seoul/kakao-login';
+// import * as KakaoLogins from '@react-native-seoul/kakao-login';
 import {Image} from 'react-native';
 
 const Entry = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
 
-  const handleKakaoLogin = () => {
-    KakaoLogins.login().then((result) => {
-      console.log(result);
-    });
-  };
+  // const handleKakaoLogin = () => {
+  //   KakaoLogins.login().then((result) => {
+  //     console.log(result);
+  //   });
+  // };
 
   return (
     <View className="w-full h-full bg-[#7F73DB] flex flex-col justify-center items-center">
@@ -23,7 +23,7 @@ const Entry = () => {
         <Image source={require('../../assets/images/sosomWhite.png')} className="w-[60%] h-full" />
       </View>
       <View className="w-full h-[30%] flex flex-row justify-center items-center">
-        <TouchableOpacity className="w-18 h-18" onPress={() => handleKakaoLogin()}>
+        <TouchableOpacity className="w-18 h-18">
           <Kakao />
         </TouchableOpacity>
         <TouchableOpacity className="w-18 h-18 ml-8 mr-8">
