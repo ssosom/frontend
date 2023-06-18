@@ -1,4 +1,4 @@
-{
+module.exports = {
   "arrowParens" : "always",
   "semi": true,
   "printWidth": 200,
@@ -6,4 +6,4 @@
   "bracketSpacing": false,
   "singleQuote": true,
   "trailingComma": "all"
-}
+};
