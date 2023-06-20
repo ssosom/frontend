@@ -75,7 +75,7 @@ const SignUp = () => {
             shadow-2xl shadow-[#352C74]
             "
               onPress={() => handleCheckDuplicateEmail()}>
-              <Image source={require('../../assets/images/finder.png')} className="w-5 h-5" />
+              <Image source={require('../assets/images/finder.png')} className="w-5 h-5" />
             </TouchableOpacity>
           </View>
         </View>
@@ -116,7 +116,7 @@ const SignUp = () => {
             shadow-2xl shadow-[#352C74]
             "
               onPress={() => handleCheckDuplicateNickName()}>
-              <Image source={require('../../assets/images/finder.png')} className="w-5 h-5" />
+              <Image source={require('../assets/images/finder.png')} className="w-5 h-5" />
             </TouchableOpacity>
           </View>
         </View>

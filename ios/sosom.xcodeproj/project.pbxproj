@@ -14,6 +14,7 @@
 		2E4DBFE7442FBD65E796DBD0 /* libPods-sosom-sosomTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 922E80047D6E8E6E6A1FAC49 /* libPods-sosom-sosomTests.a */; };
 		6ECAA0A086164D5FB1E91CB2 /* libPods-sosom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 488AA26371053D03CAC71DB6 /* libPods-sosom.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		941BE1E8D105424CA084ED50 /* GabiaHeuldot.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4A2036838E4E4DE1BE78CA88 /* GabiaHeuldot.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = sosom/main.m; sourceTree = "<group>"; };
 		3AD6E2E92A60488CE5E4D7AD /* Pods-sosom-sosomTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sosom-sosomTests.debug.xcconfig"; path = "Target Support Files/Pods-sosom-sosomTests/Pods-sosom-sosomTests.debug.xcconfig"; sourceTree = "<group>"; };
 		488AA26371053D03CAC71DB6 /* libPods-sosom.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sosom.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A2036838E4E4DE1BE78CA88 /* GabiaHeuldot.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = GabiaHeuldot.otf; path = ../src/assets/fonts/GabiaHeuldot.otf; sourceTree = "<group>"; };
 		5E1D17B12BB02952DE4EA636 /* Pods-sosom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sosom.release.xcconfig"; path = "Target Support Files/Pods-sosom/Pods-sosom.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = sosom/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		922E80047D6E8E6E6A1FAC49 /* libPods-sosom-sosomTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sosom-sosomTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +124,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				EFBC56C2E6FF4C3BB60E1BF1 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -146,6 +149,15 @@
 				AE862249CAE26A6871790D13 /* Pods-sosom-sosomTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		EFBC56C2E6FF4C3BB60E1BF1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4A2036838E4E4DE1BE78CA88 /* GabiaHeuldot.otf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,6 +255,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				941BE1E8D105424CA084ED50 /* GabiaHeuldot.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
