@@ -22,9 +22,9 @@ const SignIn = () => {
   };
 
   return (
-    <View className="w-full h-full bg-[#7F73DB]">
+    <View className="w-full h-full bg-[#7F73DB] font-GabiaHeuldot">
       <View className="w-full h-40 flex flex-row justify-center items-center mt-14">
-        <Image source={require('../../assets/images/sosomWhite.png')} className="w-full h-full" />
+        <Image source={require('../assets/images/sosomWhite.png')} className="w-full h-full" />
       </View>
       <View className="w-full h-[5%]" />
       <View className="w-full flex flex-col justify-center items-center gap-3 p-3">

@@ -3,11 +3,11 @@ import {TouchableOpacity, View} from 'react-native';
 
 const RecodeFooter = () => {
   return (
-    <View className="w-full flex justify-center items-center">
-      <View className="w-full h-20 bg-[#262055] flex flex-row justify-center items-center" />
-      <View className="w-24 bg-[#262055] h-24 rounded-full absolute bottom-0 flex justify-center items-center">
-        <View className="w-20 bg-black h-20 rounded-full flex justify-center items-center">
-          <TouchableOpacity className="w-10 h-10 bg-red-600 rounded-md" />
+    <View className="w-full flex justify-center items-center absolute bottom-0">
+      <View className="w-full h-16 bg-[#7F73DB] flex flex-row justify-center items-center" />
+      <View className="w-20 bg-[#7F73DB] h-20 rounded-full absolute bottom-0 flex justify-center items-center">
+        <View className="w-16 bg-black h-16 rounded-full flex justify-center items-center">
+          <TouchableOpacity className="w-8 h-8 bg-red-600 rounded-md" />
         </View>
       </View>
     </View>
