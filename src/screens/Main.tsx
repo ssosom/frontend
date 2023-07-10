@@ -65,9 +65,9 @@ const MainScreen = () => {
 
   return (
     <MainLayout>
-      <View className={`w-full h-5 flex justify-center items-end pr-3 bg-[#7F73DB]`}></View>
+      <View className="w-full h-5 flex justify-center items-end pr-3 bg-[#7F73DB]" />
       <View className="w-full h-[90%] bg-white">
-        <View className="w-full h-[60%]"></View>
+        <View className="w-full h-[60%]" />
         <View className="flex flex-row justify-center items-center gap-5">
           <TouchableOpacity className="w-10 h-5 border" onPress={() => handleStartRecord()}>
             <Text>녹음</Text>
