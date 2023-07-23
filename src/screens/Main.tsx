@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import MainLayout from '../components/Layout/MainLayout';
 import AudioRecorderPlayer, {
@@ -31,11 +31,25 @@ const MainScreen = () => {
 
   const dirs = RNFetchBlob.fs.dirs;
   const path = Platform.select({
-    ios: undefined,
-    android: undefined,
+    ios: 'hello.m4a',
+    android: 'sdcard/hello.mp3',
+    // should give extra dir name in android. Won't grant permission to the first level of dir.
   });
 
+  useEffect(() => {
+    return () => {
+      audioRecorderPlayer.removeRecordBackListener();
+    };
+  }, []);
+
   const startRecorder = async () => {
+    const audioSet = {
+      AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+      AudioSourceAndroid: AudioSourceAndroidType.MIC,
+      AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+      AVNumberOfChannelsKeyIOS: 2,
+      AVFormatIDKeyIOS: AVEncodingOption.aac,
+    };
     const result = await audioRecorderPlayer.startRecorder();
     audioRecorderPlayer.addRecordBackListener((e) => {
       setPlayerDuration({
@@ -44,7 +58,21 @@ const MainScreen = () => {
       });
       return;
     });
-    console.log(result);
+  };
+
+  const recordPlay = async () => {
+    const msg = await audioRecorderPlayer.startPlayer(path);
+    //Volume should be set 0.0 to 1.0
+    const volume = await audioRecorderPlayer.setVolume(1.0);
+    audioRecorderPlayer.addPlayBackListener((e) => {
+      setPlayerDuration({
+        currentPositionSec: e.currentPosition,
+        currentDurationSec: e.duration,
+        playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+        duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+      });
+      return;
+    });
   };
 
   // 녹음 시작
@@ -98,23 +126,20 @@ const MainScreen = () => {
 
   // 음성 재생
   const onStartPlay = async () => {
-    try {
-      const msg = await audioRecorderPlayer.startPlayer(path);
-
-      const volume = await audioRecorderPlayer.setVolume(1.0);
-      console.log(`path: ${msg}`, `volume: ${volume}`);
-
-      audioRecorderPlayer.addPlayBackListener((e) => {
-        setPlayerDuration({
-          currentPositionSec: e.currentPosition,
-          currentDurationSec: e.duration,
-          playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
-          duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
-        });
-        return;
-      });
-    } catch (err) {
-      console.log('startPlayer error', err);
+    if (Platform.OS === 'android') {
+      try {
+        const grants = await PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, PermissionsAndroid.PERMISSIONS.RECORD_AUDIO]);
+        if (grants['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED && grants['android.permission.RECORD_AUDIO'] === PermissionsAndroid.RESULTS.GRANTED) {
+          await recordPlay();
+        } else {
+          console.log('All required permissions not granted');
+          return;
+        }
+      } catch (err) {
+        console.log('startPlayer error', err);
+      }
+    } else {
+      await recordPlay();
     }
   };
 
