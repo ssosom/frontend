@@ -26,14 +26,29 @@ const MainScreen = () => {
   const [playTime, setPlayTime] = useState('00:00:00');
   const [duration, setDuration] = useState('00:00:00');
 
+  const [recoding, setRecoding] = useState<boolean>(false);
+  const [playerDuration, setPlayerDuration] = useState<any>('');
+
   const dirs = RNFetchBlob.fs.dirs;
   const path = Platform.select({
     ios: undefined,
     android: undefined,
   });
 
+  const startRecorder = async () => {
+    const result = await audioRecorderPlayer.startRecorder();
+    audioRecorderPlayer.addRecordBackListener((e) => {
+      setPlayerDuration({
+        recordSecs: e.currentPosition,
+        recordTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+      });
+      return;
+    });
+    console.log(result);
+  };
+
   // 녹음 시작
-  const handleStartRecord = async () => {
+  const onStartRecord = async () => {
     if (Platform.OS === 'android') {
       try {
         const grants = await PermissionsAndroid.requestMultiple([
@@ -41,25 +56,22 @@ const MainScreen = () => {
           PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
           PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
         ]);
-
-        console.log('write external stroage', grants);
-
         if (
           grants['android.permission.WRITE_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED &&
           grants['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED &&
           grants['android.permission.RECORD_AUDIO'] === PermissionsAndroid.RESULTS.GRANTED
         ) {
-          console.log('permissions granted');
+          await startRecorder();
         } else {
           console.log('All required permissions not granted');
-
           return;
         }
       } catch (err) {
         console.warn(err);
-
         return;
       }
+    } else {
+      await startRecorder();
     }
   };
 
@@ -85,19 +97,21 @@ const MainScreen = () => {
   };
 
   // 음성 재생
-  const soundStart = async () => {
+  const onStartPlay = async () => {
     try {
       const msg = await audioRecorderPlayer.startPlayer(path);
 
       const volume = await audioRecorderPlayer.setVolume(1.0);
       console.log(`path: ${msg}`, `volume: ${volume}`);
 
-      audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-        console.log('playBackListener', e);
-        setCurrentPositionSec(e.currentPosition);
-        setCurrentDurationSec(e.duration);
-        setPlayTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)));
-        setDuration(audioRecorderPlayer.mmssss(Math.floor(e.duration)));
+      audioRecorderPlayer.addPlayBackListener((e) => {
+        setPlayerDuration({
+          currentPositionSec: e.currentPosition,
+          currentDurationSec: e.duration,
+          playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+          duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+        });
+        return;
       });
     } catch (err) {
       console.log('startPlayer error', err);
@@ -123,13 +137,13 @@ const MainScreen = () => {
       <View className="w-full h-[90%] bg-white">
         <View className="w-full h-[60%]" />
         <View className="flex flex-row justify-center items-center gap-5">
-          <TouchableOpacity className="w-10 h-5 border" onPress={() => handleStartRecord()}>
+          <TouchableOpacity className="w-10 h-5 border" onPress={() => onStartRecord()}>
             <Text>녹음</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-10 h-5 border" onPress={() => handleStopRecord()}>
+          <TouchableOpacity className="w-10 h-5 border" onPress={() => onStopRecord()}>
             <Text>중지</Text>
           </TouchableOpacity>
-          <TouchableOpacity className="w-10 h-5 border" onPress={() => soundStart()}>
+          <TouchableOpacity className="w-10 h-5 border" onPress={() => onStartPlay()}>
             <Text>재생</Text>
           </TouchableOpacity>
           {/* <Text>{recordDuration.recordSecs}</Text>
