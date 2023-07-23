@@ -32,8 +32,7 @@ const MainScreen = () => {
   const dirs = RNFetchBlob.fs.dirs;
   const path = Platform.select({
     ios: 'hello.m4a',
-    android: 'sdcard/hello.mp3',
-    // should give extra dir name in android. Won't grant permission to the first level of dir.
+    android: `${dirs.CacheDir}/hello.mp3`,
   });
 
   useEffect(() => {
@@ -50,7 +49,8 @@ const MainScreen = () => {
       AVNumberOfChannelsKeyIOS: 2,
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
-    const result = await audioRecorderPlayer.startRecorder();
+    const result = await audioRecorderPlayer.startRecorder(path, audioSet);
+    console.log(result);
     audioRecorderPlayer.addRecordBackListener((e) => {
       setPlayerDuration({
         recordSecs: e.currentPosition,
@@ -76,31 +76,37 @@ const MainScreen = () => {
   };
 
   // 녹음 시작
+  const requestPermission = async (permission: any, dialogOptions: any) => {
+    try {
+      const granted = await PermissionsAndroid.request(permission, dialogOptions);
+      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Permission denied');
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.warn(err);
+      return false;
+    }
+  };
+
   const onStartRecord = async () => {
     if (Platform.OS === 'android') {
-      try {
-        const grants = await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        ]);
-        if (
-          grants['android.permission.WRITE_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.RECORD_AUDIO'] === PermissionsAndroid.RESULTS.GRANTED
-        ) {
-          await startRecorder();
-        } else {
-          console.log('All required permissions not granted');
-          return;
-        }
-      } catch (err) {
-        console.warn(err);
-        return;
-      }
-    } else {
-      await startRecorder();
+      const grantedWrite = await requestPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
+        title: 'Permissions for write access',
+        message: 'Give permission to your storage to write a file',
+        buttonPositive: 'ok',
+      });
+      if (!grantedWrite) return;
+
+      const grantedRecord = await requestPermission(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
+        title: 'Permissions for write access',
+        message: 'Give permission to your storage to write a file',
+        buttonPositive: 'ok',
+      });
+      if (!grantedRecord) return;
     }
+    startRecorder();
   };
 
   // 녹음 중지
