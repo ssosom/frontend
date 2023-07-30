@@ -98,7 +98,6 @@ const MainScreen = () => {
         buttonPositive: 'ok',
       });
       if (!grantedWrite) return;
-
       const grantedRecord = await requestPermission(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, {
         title: 'Permissions for write access',
         message: 'Give permission to your storage to write a file',
