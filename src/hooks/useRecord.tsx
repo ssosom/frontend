@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import RNFetchBlob from 'rn-fetch-blob';
 import AudioRecorderPlayer, {AVEncoderAudioQualityIOSType, AVEncodingOption, AudioEncoderAndroidType, AudioSourceAndroidType} from 'react-native-audio-recorder-player';
 import {PermissionsAndroid} from 'react-native';
@@ -22,7 +22,7 @@ export const useRecord = () => {
     };
   }, []);
 
-  const startRecorder = async () => {
+  const startRecorder = useCallback(async () => {
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -39,13 +39,16 @@ export const useRecord = () => {
       });
       return;
     });
-  };
+  }, []);
 
-  const recordPlay = async () => {
+  const recordPlay = useCallback(async (e: any) => {
     const msg = await audioRecorderPlayer.startPlayer(path);
     //Volume should be set 0.0 to 1.0
     const volume = await audioRecorderPlayer.setVolume(1.0);
     audioRecorderPlayer.addPlayBackListener((e) => {
+      if (e.currentPosition === e.duration) {
+        audioRecorderPlayer.stopPlayer();
+      }
       setPlayerDuration({
         currentPositionSec: e.currentPosition,
         currentDurationSec: e.duration,
@@ -54,10 +57,10 @@ export const useRecord = () => {
       });
       return;
     });
-  };
+  }, []);
 
   // 녹음 시작
-  const requestPermission = async (permission: any, dialogOptions: any) => {
+  const requestPermission = useCallback(async (permission: any, dialogOptions: any) => {
     try {
       const granted = await PermissionsAndroid.request(permission, dialogOptions);
       if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
@@ -69,9 +72,9 @@ export const useRecord = () => {
       console.warn(err);
       return false;
     }
-  };
+  }, []);
 
-  const handleStartRecord = async () => {
+  const handleStartRecord = useCallback(async () => {
     if (Platform.OS === 'android') {
       const grantedWrite = await requestPermission(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE, {
         title: 'Permissions for write access',
@@ -87,35 +90,35 @@ export const useRecord = () => {
       if (!grantedRecord) return;
     }
     startRecorder();
-  };
+  }, []);
 
   // 녹음 일시 중지
-  const handlePauseRecord = async () => {
+  const handlePauseRecord = useCallback(async () => {
     try {
       const r = await audioRecorderPlayer.pauseRecorder();
       console.log(r);
     } catch (err) {
       console.log('pauseRecord', err);
     }
-  };
+  }, []);
 
   //녹음 종료
-  const handleStopRecord = async (): Promise<void> => {
+  const handleStopRecord = useCallback(async () => {
     const result = await audioRecorderPlayer.stopRecorder();
     audioRecorderPlayer.removeRecordBackListener();
     setRecordDuration({...recordDuration, recordSecs: 0});
     console.log(result);
-  };
+  }, []);
   // 재생 종료
-  const onStopPlay = async (): Promise<void> => {
+  const onStopPlay = useCallback(async () => {
     audioRecorderPlayer.stopPlayer();
     audioRecorderPlayer.removePlayBackListener();
-  };
+  }, []);
 
   // 녹음 재시작
-  const onResumeRecord = async (): Promise<void> => {
+  const onResumeRecord = useCallback(async () => {
     await audioRecorderPlayer.resumeRecorder();
-  };
+  }, []);
 
   // 음성 재생
   const handleStartPlay = async () => {
