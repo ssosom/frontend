@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 
-const useRecord = create<StoreState & StoreActions>((set) => ({
+const useRecordState = create<StoreState & StoreActions>((set) => ({
   recordDuration: {
     recordSecs: 0,
     recordTime: '00:00:00',
@@ -29,4 +29,4 @@ const useRecord = create<StoreState & StoreActions>((set) => ({
   setRecording: (newRecording) => set({recording: newRecording}),
 }));
 
-export default useRecord;
+export default useRecordState;
