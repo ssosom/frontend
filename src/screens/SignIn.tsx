@@ -13,12 +13,16 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
-    const response: LoginResponse = await signIn(id, password);
-    if (response) {
-      setItemInAsync('accessToken', response.accessToken);
-      setItemInAsync('refreshToken', response.refreshToken);
+    try {
+      const response: LoginResponse = await signIn(id, password);
+      if (response) {
+        await setItemInAsync('accessToken', response.accessToken);
+        await setItemInAsync('refreshToken', response.refreshToken);
+        navigation.navigate('Main');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
     }
-    navigation.navigate('Main');
   };
 
   return (
