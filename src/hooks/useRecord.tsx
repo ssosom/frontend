@@ -1,14 +1,14 @@
-import {useCallback, useEffect, useState} from 'react';
-import RNFetchBlob from 'rn-fetch-blob';
+import {useCallback, useEffect} from 'react';
 import AudioRecorderPlayer, {AVEncoderAudioQualityIOSType, AVEncodingOption, AudioEncoderAndroidType, AudioSourceAndroidType} from 'react-native-audio-recorder-player';
 import {PermissionsAndroid} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 import {Platform} from 'react-native';
 import useRecordState from '../store';
 
 export const useRecord = () => {
   const audioRecorderPlayer = new AudioRecorderPlayer();
+  audioRecorderPlayer.setSubscriptionDuration(0.09);
   const {recordDuration, playerDuration, setPlayerDuration, setRecordDuration, setRecording} = useRecordState();
-
   const dirs = RNFetchBlob.fs.dirs;
   const path = Platform.select({
     ios: 'hello.m4a',
@@ -36,24 +36,6 @@ export const useRecord = () => {
       setRecordDuration({
         recordSecs: e.currentPosition,
         recordTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
-      });
-      return;
-    });
-  }, []);
-
-  const recordPlay = useCallback(async (e: any) => {
-    const msg = await audioRecorderPlayer.startPlayer(path);
-    //Volume should be set 0.0 to 1.0
-    const volume = await audioRecorderPlayer.setVolume(1.0);
-    audioRecorderPlayer.addPlayBackListener((e) => {
-      if (e.currentPosition === e.duration) {
-        audioRecorderPlayer.stopPlayer();
-      }
-      setPlayerDuration({
-        currentPositionSec: e.currentPosition,
-        currentDurationSec: e.duration,
-        playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
-        duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
       });
       return;
     });
@@ -121,29 +103,51 @@ export const useRecord = () => {
   }, []);
 
   // 음성 재생
-  const handleStartPlay = async () => {
+  const handleStartPlay = useCallback(async () => {
     if (Platform.OS === 'android') {
       try {
         const grants = await PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, PermissionsAndroid.PERMISSIONS.RECORD_AUDIO]);
         if (grants['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED && grants['android.permission.RECORD_AUDIO'] === PermissionsAndroid.RESULTS.GRANTED) {
-          await recordPlay();
+          const msg = await audioRecorderPlayer.startPlayer(path);
+          audioRecorderPlayer.setVolume(1.0);
+          audioRecorderPlayer.addPlayBackListener((e) => {
+            if (e.currentPosition === e.duration) {
+              audioRecorderPlayer.stopPlayer();
+            }
+            setPlayerDuration({
+              currentPositionSec: e.currentPosition,
+              currentDurationSec: e.duration,
+              playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+              duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+            });
+          });
         } else {
           console.log('All required permissions not granted');
-          return;
         }
       } catch (err) {
         console.log('startPlayer error', err);
       }
     } else {
-      await recordPlay();
+      const msg = await audioRecorderPlayer.startPlayer(path);
+      audioRecorderPlayer.setVolume(1.0);
+      audioRecorderPlayer.addPlayBackListener((e) => {
+        if (e.currentPosition === e.duration) {
+          audioRecorderPlayer.stopPlayer();
+        }
+        setPlayerDuration({
+          currentPositionSec: e.currentPosition,
+          currentDurationSec: e.duration,
+          playTime: audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)),
+          duration: audioRecorderPlayer.mmssss(Math.floor(e.duration)),
+        });
+      });
     }
-  };
+  }, []);
 
   return {
     recordDuration,
     playerDuration,
     startRecorder,
-    recordPlay,
     requestPermission,
     handleStartRecord,
     handlePauseRecord,
