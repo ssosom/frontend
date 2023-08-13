@@ -13,7 +13,7 @@ export const useRecord = () => {
   const dirs = RNFetchBlob.fs.dirs;
   const path = Platform.select({
     ios: 'hello.m4a',
-    android: `${dirs.CacheDir}/hello.mp3`,
+    android: `${dirs.CacheDir}/hello.mp4`,
   });
 
   useEffect(() => {
