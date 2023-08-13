@@ -1,4 +1,4 @@
-import {useCallback, useEffect} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import AudioRecorderPlayer, {AVEncoderAudioQualityIOSType, AVEncodingOption, AudioEncoderAndroidType, AudioSourceAndroidType} from 'react-native-audio-recorder-player';
 import {PermissionsAndroid} from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -9,10 +9,11 @@ export const useRecord = () => {
   const audioRecorderPlayer = new AudioRecorderPlayer();
   audioRecorderPlayer.setSubscriptionDuration(0.09);
   const {recordDuration, playerDuration, setPlayerDuration, setRecordDuration, setRecording} = useRecordState();
+  const [savedFilePath, setSavedFilePath] = useState('');
   const dirs = RNFetchBlob.fs.dirs;
   const path = Platform.select({
     ios: 'hello.m4a',
-    android: `${dirs.CacheDir}/hello.mp3`,
+    android: `${dirs.CacheDir}/hello.mp4`,
   });
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export const useRecord = () => {
     };
   }, []);
 
-  const startRecorder = useCallback(async () => {
+  const startRecorder = async () => {
     const audioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -31,7 +32,7 @@ export const useRecord = () => {
       AVFormatIDKeyIOS: AVEncodingOption.aac,
     };
     const result = await audioRecorderPlayer.startRecorder(path, audioSet);
-    console.log(result);
+    setSavedFilePath(result);
     audioRecorderPlayer.addRecordBackListener((e) => {
       setRecordDuration({
         recordSecs: e.currentPosition,
@@ -39,7 +40,7 @@ export const useRecord = () => {
       });
       return;
     });
-  }, []);
+  };
 
   // 녹음 시작
   const requestPermission = useCallback(async (permission: any, dialogOptions: any) => {
@@ -108,7 +109,7 @@ export const useRecord = () => {
       try {
         const grants = await PermissionsAndroid.requestMultiple([PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, PermissionsAndroid.PERMISSIONS.RECORD_AUDIO]);
         if (grants['android.permission.READ_EXTERNAL_STORAGE'] === PermissionsAndroid.RESULTS.GRANTED && grants['android.permission.RECORD_AUDIO'] === PermissionsAndroid.RESULTS.GRANTED) {
-          const msg = await audioRecorderPlayer.startPlayer(path);
+          const msg = await audioRecorderPlayer.startPlayer(savedFilePath);
           audioRecorderPlayer.setVolume(1.0);
           audioRecorderPlayer.addPlayBackListener((e) => {
             if (e.currentPosition === e.duration) {
