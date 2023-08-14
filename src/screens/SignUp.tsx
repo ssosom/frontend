@@ -4,11 +4,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useState} from 'react';
 import {checkDuplicatedNickname, checkDuplicatedEmail, signUp} from '../axios';
 import {RootStackNavigationProps} from './Navigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignUp = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
   const [id, setId] = useState('');
-  const duplicatedCheck = [false, false];
+  const [duplicatedEmail, setDuplicatedEmail] = useState(false);
+  const [duplicatedNickname, setDuplicatedNickname] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [nickname, setNickname] = useState('');
@@ -17,7 +19,7 @@ const SignUp = () => {
     const response = await checkDuplicatedEmail(id);
     if (!response) {
       Alert.alert('사용 가능한 이메일입니다.');
-      duplicatedCheck.splice(0, 1, true);
+      setDuplicatedEmail(true);
       return;
     } else if (response) {
       Alert.alert('중복된 이메일입니다. 다른 이메일을 입력해주세요.');
@@ -28,7 +30,7 @@ const SignUp = () => {
     const response = await checkDuplicatedNickname(nickname);
     if (!response) {
       Alert.alert('사용 가능한 닉네임입니다.');
-      duplicatedCheck.splice(1, 1, true);
+      setDuplicatedNickname(true);
       return;
     } else if (response) {
       Alert.alert('중복된 닉네임입니다. 다른 닉네임을 입력해주세요.');
@@ -37,13 +39,18 @@ const SignUp = () => {
   };
 
   const handleSignUp = async () => {
+    await AsyncStorage.clear();
+    if (!id || !password || !passwordCheck || !nickname) {
+      Alert.alert('모든 항목을 입력해주세요.');
+      return;
+    }
     if (password !== passwordCheck) {
       Alert.alert('비밀번호가 일치하지 않습니다.');
       return;
-    } else if (duplicatedCheck[0] === false) {
+    } else if (duplicatedEmail === false) {
       Alert.alert('이메일 중복확인을 해주세요.');
       return;
-    } else if (duplicatedCheck[1] === false) {
+    } else if (duplicatedNickname === false) {
       Alert.alert('닉네임 중복확인을 해주세요.');
       return;
     }

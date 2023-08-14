@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProps} from './Navigator';
@@ -7,6 +7,7 @@ import User from '../assets/images/User';
 import Naver from '../assets/images/Naver';
 // import * as KakaoLogins from '@react-native-seoul/kakao-login';
 import {Image} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Entry = () => {
   const navigation = useNavigation<RootStackNavigationProps>();

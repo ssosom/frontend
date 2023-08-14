@@ -1,11 +1,12 @@
 import React from 'react';
 import {useState} from 'react';
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {RootStackNavigationProps} from './Navigator';
 import {signIn} from '../axios';
 import {Image} from 'react-native';
 import {setItemInAsync} from '../utils/authUtils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = () => {
   const navigation = useNavigation<RootStackNavigationProps>();
@@ -21,7 +22,7 @@ const SignIn = () => {
         navigation.navigate('Main');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      Alert.alert('아이디 혹은 비밀번호가 일치하지 않습니다.');
     }
   };
 
